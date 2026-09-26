@@ -1,10 +1,7 @@
 # Advent of Code 2025
 
-Soluciones para Advent of Code 2025 implementadas en Java, siguiendo principios de Clean Code, SOLID, y patrones de diseño.
+Problemas diarios de Advent of Code 2025 solucionados en Java, siguiendo principios de Clean Code, patrones de diseño y SOLID.
 
-## Uso de la IA
-
-Este readme y la plantilla para las documentaciones han sido realizadas con IA. Es uso de estas herramientas para tareas repetitivas y creación de archivos markdown es bastante útil y mejora la eficiencia de un programador o desarrollador de código. 
 
 ## Estructura del Proyecto
 

@@ -1,4 +1,4 @@
-package software.ulpgc.day05.b;
+package dia5.b;
 
 import java.util.ArrayList;
 import java.util.Comparator;

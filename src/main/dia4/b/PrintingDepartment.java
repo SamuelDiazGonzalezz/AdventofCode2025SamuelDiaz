@@ -1,4 +1,4 @@
-package software.ulpgc.day04.b;
+package dia4.b;
 
 import java.util.Arrays;
 import java.util.List;

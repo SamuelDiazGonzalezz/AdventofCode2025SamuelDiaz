@@ -1,4 +1,4 @@
-package software.ulpgc.day01.a;
+package dia1.a;
 
 import org.junit.Assert;
 import org.junit.Test;

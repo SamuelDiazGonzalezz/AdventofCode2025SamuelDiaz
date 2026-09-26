@@ -1,4 +1,4 @@
-package software.ulpgc.day05.a;
+package dia5.a;
 
 public enum IngredientStatus {
     fresh,

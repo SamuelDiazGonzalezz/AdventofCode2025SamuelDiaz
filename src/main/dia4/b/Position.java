@@ -1,3 +1,3 @@
-package software.ulpgc.day04.b;
+package dia4.b;
 
 record Position(int row, int col) {}

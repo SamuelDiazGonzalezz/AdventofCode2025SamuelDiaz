@@ -1,4 +1,4 @@
-package software.ulpgc.day03.b;
+package dia3.b;
 
 import java.util.List;
 import java.util.stream.Collectors;

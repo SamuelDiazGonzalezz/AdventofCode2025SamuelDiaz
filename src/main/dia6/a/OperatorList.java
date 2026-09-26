@@ -1,4 +1,4 @@
-package software.ulpgc.day06.a;
+package dia6.a;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package software.ulpgc.day05.b;
+package dia5.b;
 
 public record Range(long start, long end) {
     public long count () {

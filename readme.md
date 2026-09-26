@@ -8,8 +8,8 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 ## Estructura del Proyecto
 
--   `src/main/java/software/ulpgc/` - Código fuente de las soluciones
--   `src/test/java/software/ulpgc/` - Tests unitarios
+-   `src/main/` - Código fuente de las soluciones
+-   `src/test/` - Tests unitarios
 -   `doc/` - Documentación técnica de cada solución
 
 ## Soluciones por Día
@@ -18,15 +18,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Circular dial con aritmética modular
 
--   📖 [Documentación Parte A](doc/day01-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day01/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day01)
+-   📘 [Documentación Parte A](doc/dia1-a.md)
+-   ⚙️ [Código Parte A](src/main/dia1/a)
+-   ✅ [Tests Parte A](src/test/dia1/a)
 
 **Parte B**: Detección de cruces por cero
 
--   📖 [Documentación Parte B](doc/day01-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day01/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day01)
+-   📘 [Documentación Parte B](doc/dia1-b.md)
+-   ⚙️ [Código Parte B](src/main/dia1/b)
+-   ✅ [Tests Parte B](src/test/dia1/b)
 
 ---
 
@@ -34,15 +34,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Validación de IDs con rangos
 
--   📖 [Documentación Parte A](doc/day02-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day02/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day02)
+-   📘 [Documentación Parte A](doc/dia2-a.md)
+-   ⚙️ [Código Parte A](src/main/dia2/a)
+-   ✅ [Tests Parte A](src/test/dia2/a)
 
 **Parte B**: Sistema de clasificación extendido
 
--   📖 [Documentación Parte B](doc/day02-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day02/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day02)
+-   📘 [Documentación Parte B](doc/dia2-b.md)
+-   ⚙️ [Código Parte B](src/main/dia2/b)
+-   ✅ [Tests Parte B](src/test/dia2/b)
 
 ---
 
@@ -50,15 +50,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Algoritmo greedy para selección de dígitos
 
--   📖 [Documentación Parte A](doc/day03-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day03/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day03)
+-   📘 [Documentación Parte A](doc/dia3-a.md)
+-   ⚙️ [Código Parte A](src/main/dia3/a)
+-   ✅ [Tests Parte A](src/test/dia3/a)
 
 **Parte B**: Optimización de baterías
 
--   📖 [Documentación Parte B](doc/day03-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day03/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day03)
+-   📘 [Documentación Parte B](doc/dia3-b.md)
+-   ⚙️ [Código Parte B](src/main/dia3/b)
+-   ✅ [Tests Parte B](src/test/dia3/b)
 
 ---
 
@@ -66,15 +66,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Grid 2D con búsqueda de 8 vecinos
 
--   📖 [Documentación Parte A](doc/day04-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day04/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day04)
+-   📘 [Documentación Parte A](doc/dia4-a.md)
+-   ⚙️ [Código Parte A](src/main/dia4/a)
+-   ✅ [Tests Parte A](src/test/dia4/a)
 
 **Parte B**: Procesamiento de grid extendido
 
--   📖 [Documentación Parte B](doc/day04-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day04/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day04)
+-   📘 [Documentación Parte B](doc/dia4-b.md)
+-   ⚙️ [Código Parte B](src/main/dia4/b)
+-   ✅ [Tests Parte B](src/test/dia4/b)
 
 ---
 
@@ -82,15 +82,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Verificación de rangos con enum-based status
 
--   📖 [Documentación Parte A](doc/day05-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day05/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day05)
+-   📘 [Documentación Parte A](doc/dia5-a.md)
+-   ⚙️ [Código Parte A](src/main/dia5/a)
+-   ✅ [Tests Parte A](src/test/dia5/a)
 
 **Parte B**: Gestión de inventario extendida
 
--   📖 [Documentación Parte B](doc/day05-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day05/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day05)
+-   📘 [Documentación Parte B](doc/dia5-b.md)
+-   ⚙️ [Código Parte B](src/main/dia5/b)
+-   ✅ [Tests Parte B](src/test/dia5/b)
 
 ---
 
@@ -98,15 +98,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Strategy Pattern con interfaz `OperatorList`
 
--   📖 [Documentación Parte A](doc/day06-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day06/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day06)
+-   📘 [Documentación Parte A](doc/dia6-a.md)
+-   ⚙️ [Código Parte A](src/main/dia6/a)
+-   ✅ [Tests Parte A](src/test/dia6/a)
 
 **Parte B**: Calculadora con operadores múltiples
 
--   📖 [Documentación Parte B](doc/day06-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day06/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day06)
+-   📘 [Documentación Parte B](doc/dia6-b.md)
+-   ⚙️ [Código Parte B](src/main/dia6/b)
+-   ✅ [Tests Parte B](src/test/dia6/b)
 
 ---
 
@@ -114,15 +114,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Patrón Singleton para gestión de beams
 
--   📖 [Documentación Parte A](doc/day07-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day07/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day07)
+-   📘 [Documentación Parte A](doc/dia7-a.md)
+-   ⚙️ [Código Parte A](src/main/dia7/a)
+-   ✅ [Tests Parte A](src/test/dia7/a)
 
 **Parte B**: Sistema de beams extendido
 
--   📖 [Documentación Parte B](doc/day07-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day07/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day07)
+-   📘 [Documentación Parte B](doc/dia7-b.md)
+-   ⚙️ [Código Parte B](src/main/dia7/b)
+-   ✅ [Tests Parte B](src/test/dia7/b)
 
 ---
 
@@ -130,15 +130,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Coordenadas 3D con selección greedy de pares
 
--   📖 [Documentación Parte A](doc/day08-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day08/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day08)
+-   📘 [Documentación Parte A](doc/dia8-a.md)
+-   ⚙️ [Código Parte A](src/main/dia8/a)
+-   ✅ [Tests Parte A](src/test/dia8/a)
 
 **Parte B**: Gestión de circuitos de decoraciones
 
--   📖 [Documentación Parte B](doc/day08-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day08/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day08)
+-   📘 [Documentación Parte B](doc/dia8-b.md)
+-   ⚙️ [Código Parte B](src/main/dia8/b)
+-   ✅ [Tests Parte B](src/test/dia8/b)
 
 ---
 
@@ -146,15 +146,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: Cálculo de área de rectángulos con flatMap
 
--   📖 [Documentación Parte A](doc/day09-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day09/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day09)
+-   📘 [Documentación Parte A](doc/dia9-a.md)
+-   ⚙️ [Código Parte A](src/main/dia9/a)
+-   ✅ [Tests Parte A](src/test/dia9/a)
 
 **Parte B**: Procesamiento geométrico extendido
 
--   📖 [Documentación Parte B](doc/day09-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day09/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day09)
+-   📘 [Documentación Parte B](doc/dia9-b.md)
+-   ⚙️ [Código Parte B](src/main/dia9/b)
+-   ✅ [Tests Parte B](src/test/dia9/b)
 
 ---
 
@@ -162,15 +162,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: BFS recursivo con representación de estado basada en Sets
 
--   📖 [Documentación Parte A](doc/day10-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day10/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day10)
+-   📘 [Documentación Parte A](doc/dia10-a.md)
+-   ⚙️ [Código Parte A](src/main/dia10/a)
+-   ✅ [Tests Parte A](src/test/dia10/a)
 
 **Parte B**: Búsqueda de estados extendida
 
--   📖 [Documentación Parte B](doc/day10-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day10/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day10)
+-   📘 [Documentación Parte B](doc/dia10-b.md)
+-   ⚙️ [Código Parte B](src/main/dia10/b)
+-   ✅ [Tests Parte B](src/test/dia10/b)
 
 ---
 
@@ -178,15 +178,15 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Parte A**: DFS con memoization para conteo de caminos
 
--   📖 [Documentación Parte A](doc/day11-a.md)
--   💻 [Código Parte A](src/main/java/software/ulpgc/day11/a)
--   🧪 [Tests Parte A](src/test/java/software/ulpgc/day11)
+-   📘 [Documentación Parte A](doc/dia11-a.md)
+-   ⚙️ [Código Parte A](src/main/dia11/a)
+-   ✅ [Tests Parte A](src/test/dia11/a)
 
 **Parte B**: Conteo de caminos optimizado
 
--   📖 [Documentación Parte B](doc/day11-b.md)
--   💻 [Código Parte B](src/main/java/software/ulpgc/day11/b)
--   🧪 [Tests Parte B](src/test/java/software/ulpgc/day11)
+-   📘 [Documentación Parte B](doc/dia11-b.md)
+-   ⚙️ [Código Parte B](src/main/dia11/b)
+-   ✅ [Tests Parte B](src/test/dia11/b)
 
 ---
 
@@ -194,9 +194,9 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 
 **Backtracking con memoization y optimización BitSet**
 
--   📖 [Documentación](doc/day12.md)
--   💻 [Código](src/main/java/software/ulpgc/day12)
--   🧪 [Tests](src/test/java/software/ulpgc/day12)
+-   📘 [Documentación](doc/dia12.md)
+-   ⚙️ [Código](src/main/dia12)
+-   ✅ [Tests](src/test/dia12)
 
 ---
 

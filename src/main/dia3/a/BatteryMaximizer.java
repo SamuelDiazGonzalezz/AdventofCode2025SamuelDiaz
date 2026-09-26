@@ -1,4 +1,4 @@
-package software.ulpgc.day03.a;
+package dia3.a;
 
 import java.util.ArrayList;
 import java.util.Arrays;

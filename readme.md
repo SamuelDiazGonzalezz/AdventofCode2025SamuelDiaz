@@ -226,14 +226,8 @@ Este readme y la plantilla para las documentaciones han sido realizadas con IA. 
 -   **YAGNI (You Aren't Gonna Need It)**
 -   **Separation of Concerns**
 
-## Tecnologías
 
--   Java
--   JUnit (para tests)
--   Stream API
--   Records (Java 14+)
--   Pattern Matching
 
 ---
 
-_Documentación técnica detallada disponible en la carpeta [`doc/`](doc/) para cada día._
+_Documentación técnica detallada disponible en la carpeta `doc/` para cada día._

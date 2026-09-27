@@ -199,31 +199,28 @@ Problemas diarios de Advent of Code 2025 solucionados en Java, siguiendo princip
 
 ## Patrones de Diseño Implementados
 
--   **Factory Method** - Todas las clases principales
--   **Fluent API / Builder** - Interfaces fluidas en todas las soluciones
--   **Strategy Pattern** - Día 6 (`OperatorList`)
--   **Singleton** - Día 7 (`BeamManager`)
--   **Memoization** - Días 11 y 12 para optimización
-
-## Algoritmos Destacados
-
--   **Aritmética Modular** - Día 1
--   **Greedy Algorithms** - Días 3, 8
--   **BFS (Breadth-First Search)** - Día 10
--   **DFS (Depth-First Search)** - Día 11
--   **Backtracking** - Día 12
--   **Range Checking** - Día 5
--   **2D/3D Grid Processing** - Días 4, 8
-
-## Principios Aplicados
-
--   **SOLID Principles**
--   **Clean Code**
--   **DRY (Don't Repeat Yourself)**
--   **YAGNI (You Aren't Gonna Need It)**
--   **Separation of Concerns**
+-   **Factory Method** - Todas las clases principales (`Classifier.create()`, `ProductList.create()`, `ServerRack.create()`, etc.). Se usa un constructor privado + un método estático `create()` en vez de un constructor público, para poder inicializar el estado interno de forma controlada sin exponer los detalles de construcción.
+-   **Fluent API / Builder** - Interfaces fluidas en todas las soluciones (`Classifier.from(...).to(...).calculate()`, `BeamManager.parse(...)`). Cada método devuelve `this`/la propia instancia, permitiendo encadenar llamadas y leer el código como una tubería de transformaciones.
+-   **Strategy Pattern** - Día 6, interfaz `OperatorList` con las implementaciones `SumList` y `ProductList` (`src/main/dia6/a/OperatorList.java`). `CephalopodMathCalculator` decide en tiempo de ejecución qué implementación usar según el operador (`*` o suma) leído en cada fila, sin condicionales repartidos por el código.
+-   **Singleton** - Día 7, `BeamManager.getInstance()` (`src/main/dia7/a/BeamManager.java`). Garantiza que exista una única simulación del haz compartida durante todo el procesamiento del puzzle, con `resetInstance()` para poder reiniciarla entre tests.
+-   **Union-Find (conjuntos disjuntos)** - Día 8, `CircuitSet` (`src/main/dia8/a/CircuitSet.java`). Cada caja empieza en su propio circuito y, al conectar pares, se fusionan los conjuntos correspondientes, evitando recorrer el grafo completo para saber si dos cajas están conectadas.
+-   **Memoization** - Día 11, `ServerRack` guarda en un `Map<Device, Long>` los caminos ya contados desde cada dispositivo (`src/main/dia11/a/ServerRack.java`); Día 12, `PresentFitter` memoiza estados ya probados usando máscaras de bits (`BitSet`/`long`) durante el backtracking (`src/main/dia12/PresentFitter.java`). En ambos casos evita recalcular subproblemas ya resueltos en una búsqueda recursiva de complejidad potencialmente exponencial.
 
 
+## Principios SOLID Aplicados
+
+-   **S - Single Responsibility (Responsabilidad Única)**: Día 2, `ID` (`src/main/dia2/a/ID.java`) solo sabe validar un identificador (`isValid()`) y convertirlo a número (`longNumber()`); `Classifier` (`src/main/dia2/a/Classifier.java`) solo se encarga de recorrer el rango y acumular los IDs inválidos. Cada clase cambia por un único motivo: si cambia la regla de validez, solo se toca `ID`; si cambia cómo se recorre el rango, solo se toca `Classifier`.
+-   **O - Open/Closed (Abierto/Cerrado)**: Día 6, la interfaz `OperatorList` está cerrada a modificación pero abierta a extensión. Para añadir un nuevo operador (por ejemplo una resta) bastaría con crear una clase nueva que la implemente, sin modificar `CephalopodMathCalculator` ni las implementaciones existentes (`SumList`, `ProductList`).
+-   **L - Liskov Substitution (Sustitución de Liskov)**: Día 6, `SumList` y `ProductList` se usan indistintamente en cualquier sitio donde se espera un `OperatorList`, sin que el código que las consume necesite saber cuál es la implementación concreta. (Como excepción a evitar: `SumList.addAll(List<Long>)` devuelve `null` en vez de `this`, rompiendo el contrato fluido que sí cumplen el resto de métodos — un ejemplo real, ya señalado en el código, de por qué violar LSP rompe el resto del sistema).
+-   **I - Interface Segregation (Segregación de Interfaces)**: Día 6, `OperatorList` solo expone los métodos que un operando necesita (`add`, `addAll`, `compute`, `size`), sin forzar a sus implementaciones a depender de métodos que no van a usar.
+-   **D - Dependency Inversion (Inversión de Dependencias)**: Día 6, `CephalopodMathCalculator` depende de la abstracción `OperatorList`, no de `SumList` o `ProductList` directamente; la implementación concreta se decide fuera (según el operador leído), permitiendo cambiarla sin tocar el calculador.
+
+## Otros Principios Aplicados
+
+-   **Clean Code** - Nombres descriptivos y métodos pequeños de una sola responsabilidad, por ejemplo `ID.isValid()` (Día 2), que expresa la regla de negocio en una única expresión booleana legible en vez de un bloque de condicionales anidados.
+-   **DRY (Don't Repeat Yourself)** - Dentro de cada día, la clase `Position` se define una sola vez y la reutilizan varias clases: en el Día 7, `Beam` y `BeamManager` comparten la misma `Position`; en el Día 12, `Shape` y `Region` comparten la misma `Position`, evitando reimplementar la lógica de coordenadas en cada clase.
+-   **YAGNI (You Aren't Gonna Need It)** - Uso de `record` para los portadores de datos simples (`ID` en el Día 2, `Position` en varios días, `Shape` en el Día 12) en vez de clases completas con getters/setters/`equals`/`hashCode` escritos a mano, evitando código boilerplate que no aporta nada al problema.
+-   **Separation of Concerns (Separación de Responsabilidades)** - Día 8: `Position` representa un punto 3D, `JunctionBoxPair` representa un par de cajas candidatas a conectar, `CircuitSet` gestiona el agrupamiento de circuitos, y `ChristmasDecorationManager` orquesta el flujo completo; cada clase resuelve una única parte del problema y se combinan entre sí.
 
 ---
 

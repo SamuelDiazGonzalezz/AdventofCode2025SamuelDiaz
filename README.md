@@ -199,40 +199,58 @@ Problemas diarios de Advent of Code 2025 solucionados en Java, siguiendo princip
 
 ## Patrones de Diseño Implementados
 
--   **Factory Method** - Constructor privado + método estático `create()`, usado en toda la base de código para controlar la inicialización sin exponer un constructor público:
+-   **Factory Method**
+    -   *Resumen: patrón creacional que oculta la construcción de un objeto detrás de un método estático (normalmente `create()`), en vez de usar `new` directamente, para controlar cómo se inicializa.*
     -   Día 2: `Classifier.create()` (`src/main/dia2/a/Classifier.java`) - crea el clasificador vacío, sin rango ni resultados.
     -   Día 9: `TilesManager.create()` (`src/main/dia9/a/TilesManager.java`) - oculta la inicialización de las listas internas de posiciones y rectángulos.
     -   Día 8: `ChristmasDecorationManager.create(int maxConnectJunction)` (`src/main/dia8/a/ChristmasDecorationManager.java`) - fábrica *parametrizada* que fija de entrada una invariante del problema (el número máximo de conexiones por caja).
     -   Día 12: `Shape.create(List<String> lines)` (`src/main/dia12/Shape.java`) - no es una fábrica vacía: parsea directamente el dibujo en texto (`#`/`.`) y construye el conjunto de celdas ocupadas.
--   **Fluent API / Builder** - Cada método devuelve `this` (o la propia instancia), permitiendo encadenar llamadas y leer el código como una tubería:
+-   **Fluent API / Builder**
+    -   *Resumen: cada método devuelve `this` (o la propia instancia) en vez de `void`, para poder encadenar llamadas y leer el código como una tubería de pasos.*
     -   Día 2: `Classifier.from(...).to(...).calculate()`.
     -   Día 4: `PrintingDepartment.addRows(rows).process()` (`src/main/dia4/b/PrintingDepartment.java`).
     -   Día 5: `InventoryManagement.addRange(...).addIngredient(...)` (`src/main/dia5/a/InventoryManagement.java`).
     -   Día 7: `BeamManager.parse(...)` (`src/main/dia7/a/BeamManager.java`).
     -   Día 8: `ChristmasDecorationManager.parse(input).startConnections().calculate()` (`src/main/dia8/a/ChristmasDecorationManager.java`) - encapsula el pipeline completo del puzzle en tres pasos encadenados.
--   **Strategy Pattern** - Día 6, interfaz `OperatorList` con las implementaciones `SumList` y `ProductList` (`src/main/dia6/a/OperatorList.java`). `CephalopodMathCalculator` decide en tiempo de ejecución qué implementación usar según el operador (`*` o suma) leído en cada fila, sin condicionales repartidos por el código. Es el único caso de estrategias intercambiables del proyecto.
--   **Singleton** - Día 7, `BeamManager.getInstance()` (`src/main/dia7/a/BeamManager.java`). Garantiza que exista una única simulación del haz compartida durante todo el procesamiento del puzzle, con `resetInstance()` para poder reiniciarla entre tests.
--   **Union-Find (conjuntos disjuntos)** - Día 8, `CircuitSet` (`src/main/dia8/a/CircuitSet.java`). Cada caja empieza en su propio circuito y, al conectar pares, se fusionan los conjuntos correspondientes, evitando recorrer el grafo completo para saber si dos cajas están conectadas.
--   **Memoization** - Día 11, `ServerRack` guarda en un `Map<Device, Long>` los caminos ya contados desde cada dispositivo (`src/main/dia11/a/ServerRack.java`); Día 12, `PresentFitter` memoiza estados ya probados usando máscaras de bits (`BitSet`/`long`) durante el backtracking (`src/main/dia12/PresentFitter.java`). En ambos casos evita recalcular subproblemas ya resueltos en una búsqueda recursiva de complejidad potencialmente exponencial.
--   **Value Object (registros inmutables)** - Varios `record` que nunca mutan su estado y devuelven siempre una nueva instancia al "transformarse":
+-   **Strategy Pattern**
+    -   *Resumen: define una familia de algoritmos intercambiables detrás de una interfaz común, para poder elegir la implementación concreta en tiempo de ejecución sin usar condicionales repartidos por el código.*
+    -   Día 6, interfaz `OperatorList` con las implementaciones `SumList` y `ProductList` (`src/main/dia6/a/OperatorList.java`). `CephalopodMathCalculator` decide en tiempo de ejecución qué implementación usar según el operador (`*` o suma) leído en cada fila, sin condicionales repartidos por el código. Es el único caso de estrategias intercambiables del proyecto.
+-   **Singleton**
+    -   *Resumen: garantiza que una clase tenga una única instancia accesible globalmente (vía un método estático como `getInstance()`), en vez de crear varias copias independientes del mismo estado.*
+    -   Día 7, `BeamManager.getInstance()` (`src/main/dia7/a/BeamManager.java`). Garantiza que exista una única simulación del haz compartida durante todo el procesamiento del puzzle, con `resetInstance()` para poder reiniciarla entre tests.
+-   **Union-Find (conjuntos disjuntos)**
+    -   *Resumen: estructura que agrupa elementos en conjuntos y permite fusionarlos eficientemente, para saber si dos elementos están "conectados" sin tener que recorrer todo el grafo cada vez.*
+    -   Día 8, `CircuitSet` (`src/main/dia8/a/CircuitSet.java`). Cada caja empieza en su propio circuito y, al conectar pares, se fusionan los conjuntos correspondientes, evitando recorrer el grafo completo para saber si dos cajas están conectadas.
+-   **Memoization**
+    -   *Resumen: técnica de optimización que guarda en caché (un `Map`, un array...) los resultados de subproblemas ya resueltos, para no recalcularlos si vuelven a aparecer durante una búsqueda recursiva.*
+    -   Día 11, `ServerRack` guarda en un `Map<Device, Long>` los caminos ya contados desde cada dispositivo (`src/main/dia11/a/ServerRack.java`); Día 12, `PresentFitter` memoiza estados ya probados usando máscaras de bits (`BitSet`/`long`) durante el backtracking (`src/main/dia12/PresentFitter.java`). En ambos casos evita recalcular subproblemas ya resueltos en una búsqueda recursiva de complejidad potencialmente exponencial.
+-   **Value Object (registros inmutables)**
+    -   *Resumen: objetos que representan un valor (una posición, un rango, una forma) y nunca cambian tras crearse; cualquier "transformación" devuelve una instancia nueva en vez de modificar la existente.*
     -   Día 12: `Shape.rotate90()`, `Shape.flipHorizontal()`, `Shape.normalized()` (`src/main/dia12/Shape.java`) - cada operación geométrica devuelve un `Shape` nuevo.
     -   Día 5: `Range(long start, long end)` (`src/main/dia5/a/Range.java`) - `isInRange()`/`count()` son funciones puras sin efectos secundarios.
     -   Día 9: `Rectangle(Position pos1, Position pos2)` (`src/main/dia9/a/Rectangle.java`) - `area()`/`corners()` se calculan sin modificar el propio rectángulo.
 
 ## Principios SOLID Aplicados
 
--   **S - Single Responsibility (Responsabilidad Única)**:
+-   **S - Single Responsibility (Responsabilidad Única)**
+    -   *Resumen: una clase debe tener una sola razón para cambiar, es decir, una sola responsabilidad; si mezcla varias, un cambio en una de ellas obliga a tocar una clase que no debería verse afectada.*
     -   Día 2: `ID` (`src/main/dia2/a/ID.java`) solo valida (`isValid()`) y convierte (`longNumber()`) un identificador; `Classifier` (`src/main/dia2/a/Classifier.java`) solo recorre el rango y acumula inválidos.
     -   Día 4: `Position` solo representa una coordenada, `PaperRoll` solo gestiona su propia lista de vecinos, y `PrintingDepartment` orquesta el algoritmo de adyacencia sobre la matriz completa (`src/main/dia4/a/`) - tres responsabilidades en tres clases distintas.
     -   Día 8: `CircuitSet.add(JunctionBoxPair)` (`src/main/dia8/a/CircuitSet.java`) solo fusiona circuitos; el cálculo de distancia vive en `Position.distanceTo` y el parseo/orquestación en `ChristmasDecorationManager`.
     -   Día 9: `Edge.cutsThrough(...)` (`src/main/dia9/b/Edge.java`) encapsula únicamente la geometría de un segmento, mientras `Polygon` orquesta el algoritmo de ray-casting y `Rectangle` calcula sus propias esquinas.
     -   Día 11: `VisitedSet.requiredCount()`/`isValid()` (`src/main/dia11/b/VisitedSet.java`) solo lleva la cuenta de nodos obligatorios visitados, separado de la búsqueda DFS de `ServerRack`.
--   **O - Open/Closed (Abierto/Cerrado)**: Día 6, la interfaz `OperatorList` está cerrada a modificación pero abierta a extensión: para añadir un nuevo operador bastaría con crear una clase nueva que la implemente, sin tocar `CephalopodMathCalculator` ni `SumList`/`ProductList`. *(Es el único ejemplo real y sólido en el proyecto; el resto de días no define jerarquías de estrategias intercambiables, así que no se fuerzan más casos.)*
--   **L - Liskov Substitution (Sustitución de Liskov)**:
+-   **O - Open/Closed (Abierto/Cerrado)**
+    -   *Resumen: el código debe estar abierto a extensión (poder añadir comportamiento nuevo) pero cerrado a modificación (sin tener que tocar el código ya existente y probado).*
+    -   Día 6, la interfaz `OperatorList` está cerrada a modificación pero abierta a extensión: para añadir un nuevo operador bastaría con crear una clase nueva que la implemente, sin tocar `CephalopodMathCalculator` ni `SumList`/`ProductList`. *(Es el único ejemplo real y sólido en el proyecto; el resto de días no define jerarquías de estrategias intercambiables, así que no se fuerzan más casos.)*
+-   **L - Liskov Substitution (Sustitución de Liskov)**
+    -   *Resumen: una subclase (o implementación de una interfaz) debe poder usarse en cualquier sitio donde se espera su tipo base, sin romper el comportamiento que el código llamador da por hecho.*
     -   Día 6: `SumList` y `ProductList` son intercambiables en cualquier sitio que espere un `OperatorList`. *(Contraejemplo real a evitar: `SumList.addAll(List<Long>)` devuelve `null` en vez de `this`, rompiendo el contrato fluido que sí cumple el resto de métodos.)*
     -   Día 7: `PositionList extends HashSet<Position>` (`src/main/dia7/a/PositionList.java` y `.../b/PositionList.java`) añade `positionExists(row, col)` sin romper el contrato de `HashSet`: se sigue pudiendo usar en cualquier sitio donde se espera un `Set<Position>` (`addAll`, `stream`, `size`) sin sorpresas.
--   **I - Interface Segregation (Segregación de Interfaces)**: Día 6, `OperatorList` solo expone los métodos que un operando necesita (`add`, `addAll`, `compute`, `size`). *(Es la única interfaz propia de todo el proyecto — el resto de clases son concretas o `record` — así que no hay un segundo ejemplo real sin inventarlo.)*
--   **D - Dependency Inversion (Inversión de Dependencias)**:
+-   **I - Interface Segregation (Segregación de Interfaces)**
+    -   *Resumen: es mejor tener varias interfaces pequeñas y específicas que una grande, para que ninguna clase se vea obligada a implementar métodos que no necesita.*
+    -   Día 6, `OperatorList` solo expone los métodos que un operando necesita (`add`, `addAll`, `compute`, `size`). *(Es la única interfaz propia de todo el proyecto — el resto de clases son concretas o `record` — así que no hay un segundo ejemplo real sin inventarlo.)*
+-   **D - Dependency Inversion (Inversión de Dependencias)**
+    -   *Resumen: el código de alto nivel debe depender de abstracciones (interfaces, tipos de colección genéricos), no de implementaciones concretas, para poder cambiar estas últimas sin afectar al resto.*
     -   Día 6: `CephalopodMathCalculator` depende de la abstracción `OperatorList`, no de `SumList`/`ProductList` directamente.
     -   Día 8: `CircuitSet` (`src/main/dia8/a/CircuitSet.java`) tipa su campo como `List<Set<Position>>`, no como `ArrayList<HashSet<Position>>`, dependiendo de las interfaces de colección de la JDK en vez de sus implementaciones concretas.
     -   Día 11: `ServerRack.mem` (`src/main/dia11/a/ServerRack.java`) está tipado como `Map<Device, Long>`, no como `HashMap`.
@@ -240,17 +258,21 @@ Problemas diarios de Advent of Code 2025 solucionados en Java, siguiendo princip
 
 ## Otros Principios Aplicados
 
--   **Clean Code** - Nombres descriptivos y métodos pequeños de una sola responsabilidad:
+-   **Clean Code**
+    -   *Resumen: escribir código legible por sí mismo, con nombres descriptivos y métodos pequeños de una sola responsabilidad, de forma que apenas haga falta comentar para entenderlo.*
     -   Día 2: `ID.isValid()` expresa la regla de negocio en una única expresión booleana legible en vez de condicionales anidados.
     -   Día 9: `Edge` (`src/main/dia9/b/Edge.java`) descompone la geometría en métodos privados de una línea con nombre autoexplicativo (`minX()`, `maxX()`, `isVertical()`...), de forma que métodos como `cutsThroughVertically` se leen casi como prosa.
--   **DRY (Don't Repeat Yourself)**:
+-   **DRY (Don't Repeat Yourself)**
+    -   *Resumen: evitar tener la misma lógica o conocimiento duplicado en varios sitios; si algo cambia, debería bastar con modificarlo en un único lugar.*
     -   Positivo, Día 10: `Machine.parseResult(Matcher m)` (`src/main/dia10/a/Machine.java`) centraliza la validación `if (!m.find()) throw ...` reutilizada por `parseLights` y `parseButton`.
     -   Positivo, Día 5: `getRangeValue(String, int)` / `parseNumber(String)` se comparten entre las variantes de `addRange(String)` de las partes A y B.
     -   Positivo, Día 7 y Día 12: `Position` se define una sola vez por día y la reutilizan varias clases (`Beam`/`BeamManager` en el Día 7; `Shape`/`Region` en el Día 12).
--   **YAGNI (You Aren't Gonna Need It)**:
+-   **YAGNI (You Aren't Gonna Need It)**
+    -   *Resumen: no añadir funcionalidad ni complejidad "por si acaso" se necesita en el futuro; se implementa solo lo que el problema pide ahora mismo.*
     -   Uso de `record` para portadores de datos simples (`ID`, `Position`, `Shape`, `Range`, `Rectangle`) en vez de clases con getters/setters/`equals`/`hashCode` escritos a mano.
     -   Día 7: `Beam` de la parte A (`src/main/dia7/a/Beam.java`) NO incluye el `Map<Position, Long> pathCounts` que sí tiene la parte B (`src/main/dia7/b/Beam.java`) - esa maquinaria de conteo de caminos solo se añadió cuando la parte B realmente la necesitó, en vez de generalizar de más desde el principio.
--   **Separation of Concerns (Separación de Responsabilidades)**:
+-   **Separation of Concerns (Separación de Responsabilidades)**
+    -   *Resumen: dividir un problema en partes independientes (parseo, geometría, orquestación...) que se combinan entre sí, en vez de mezclar todo en un único sitio.*
     -   Día 8: `Position` (punto 3D), `JunctionBoxPair` (par candidato a conectar), `CircuitSet` (agrupamiento de circuitos) y `ChristmasDecorationManager` (orquestación del flujo completo) - cada clase resuelve una única parte del problema.
     -   Día 9: `Edge` (geometría de un segmento), `Polygon` (orquestación del ray-casting), `Rectangle` (sus propias esquinas/área) y `TilesManager` (parseo + orquestación general) - ningún fichero mezcla parseo con geometría.
 

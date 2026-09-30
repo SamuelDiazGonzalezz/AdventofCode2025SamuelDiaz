@@ -1,5 +1,18 @@
 # Día 4 - Parte A
 
+## Principios SOLID
+
+### S (Responsabilidad Única)
+
+`PaperRoll` (`dia4/a/PaperRoll.java`) tiene una responsabilidad razonablemente acotada: mantener y exponer la lista de rollos adyacentes (`add`, `remove`, `addAll`, `stream`, `forEach`...). Sin embargo, `PrintingDepartment` (`dia4/a/PrintingDepartment.java`) mezcla varias responsabilidades distintas en la misma clase: parsear el texto de entrada (`addRow`, `addRows`), construir el grafo de adyacencias (`process`, `getAdjacentRolls`), calcular estadísticas (`accesibleRollsCount`) e incluso imprimir una representación visual por consola (`print()`), que mezcla lógica de negocio con lógica de presentación. Por tanto, S se cumple razonablemente en `PaperRoll`, pero no de forma limpia en `PrintingDepartment`.
+
+No se aplica de forma clara en este día:
+
+-   **O (Abierto/Cerrado)**: no hay ninguna abstracción (interfaz o clase base) que permita cambiar el criterio de accesibilidad o el algoritmo de vecindad sin modificar `PrintingDepartment` directamente.
+-   **L (Sustitución de Liskov)**: no hay herencia en este día.
+-   **I (Segregación de Interfaces)**: `PaperRoll` no implementa ninguna interfaz propia (aunque expone un API amplio similar al de `List`, no existe una interfaz Java real que se pudiera estar violando o segregando).
+-   **D (Inversión de Dependencias)**: `PrintingDepartment` crea directamente `new PaperRoll()` y trabaja sobre el array concreto `PaperRoll[][]`, sin depender de ninguna abstracción.
+
 ## Enunciado
 
 <!-- Rellenar con el enunciado del problema -->

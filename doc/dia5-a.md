@@ -1,5 +1,27 @@
 # Día 5 - Parte A
 
+## Principios SOLID
+
+### S - Single Responsibility Principle
+
+Los records `Ingredient` y `Range` tienen una responsabilidad única y clara: `Range.isInRange(long)` solo determina si un id cae dentro de sus límites, y `Ingredient` solo agrupa un id con su estado. `InventoryManagement`, en cambio, mezcla parsing de texto, lógica de negocio (`rangeChecker`) y consulta (`count`) en la misma clase, así que el principio se cumple mejor a nivel de los value objects que de la clase principal.
+
+### O - Open/Closed Principle
+
+No se aplica de forma clara en este día: no hay ninguna interfaz ni clase abstracta que permita añadir nuevas formas de clasificar ingredientes sin modificar `InventoryManagement`; la lógica de "fresco/estropeado" está codificada directamente en `addIngredient`.
+
+### L - Liskov Substitution Principle
+
+No se aplica: no existe ninguna jerarquía de herencia ni subtipos en este código (los records no extienden ni son extendidos por nada).
+
+### I - Interface Segregation Principle
+
+No se aplica: el día no define ninguna interfaz propia.
+
+### D - Dependency Inversion Principle
+
+No se aplica de forma clara: `InventoryManagement` depende directamente de las clases concretas `Range` e `Ingredient`, no de ninguna abstracción.
+
 ## Enunciado
 
 <!-- Rellenar con el enunciado del problema -->

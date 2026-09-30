@@ -1,5 +1,18 @@
 # Día 2: Tienda de Regalos - Parte A
 
+## Principios SOLID
+
+### S (Responsabilidad Única)
+
+El record `ID` (`dia2/a/ID.java`) tiene una única responsabilidad: validar el formato de un identificador (`isValid()`) y convertirlo a `long` (`longNumber()`). La clase `Classifier` (`dia2/a/Classifier.java`) solo se encarga de recorrer un rango de números y acumular los `ID` inválidos que encuentra (`calculate()`, `add(long)`, `sum()`), sin conocer ni implementar las reglas de validez. Esta separación entre "qué hace válido a un ID" y "cómo se recorre un rango y se acumulan resultados" es un ejemplo claro de SRP.
+
+No se aplica de forma clara en este día:
+
+-   **O (Abierto/Cerrado)**: `ClassifierAdder` compone varios `Classifier`, pero se trata de composición sobre clases concretas (`Classifier.create()...` dentro de `add(long[])`), no de una extensión a través de una abstracción que permita añadir comportamiento sin tocar código existente.
+-   **L (Sustitución de Liskov)**: no hay herencia en este día.
+-   **I (Segregación de Interfaces)**: no se definen interfaces propias.
+-   **D (Inversión de Dependencias)**: `ClassifierAdder.add(long[])` instancia directamente `Classifier`, una dependencia concreta, en vez de depender de una abstracción.
+
 ## Enunciado
 
 Un elfo joven ha añadido IDs de producto inválidos a la base de datos de la tienda del Polo Norte. Los IDs inválidos son aquellos formados por una secuencia de dígitos repetida exactamente dos veces (ej: 55, 6464, 123123). Los IDs no pueden empezar con cero. Dado un conjunto de rangos de IDs, debes identificar y sum ar todos los IDs inválidos que aparecen en esos rangos.

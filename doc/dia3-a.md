@@ -1,8 +1,21 @@
 # DÃ­a 3 - Parte A
 
+## Principios SOLID
+
+### S (Responsabilidad Ãšnica)
+
+`BatteryBank` (`dia3/a/BatteryBank.java`) se responsabiliza Ãºnicamente de calcular el resultado de un banco de baterÃ­as (`sum()`, `getMaxNum`, `joinChars`), mientras que `BatteryMaximizer` (`dia3/a/BatteryMaximizer.java`) solo se encarga de acumular varios bancos y sumar sus resultados (`fromString`, `add`, `sum`). Ninguna de las dos clases mezcla el algoritmo de selecciÃ³n de dÃ­gitos con la construcciÃ³n de la lista de bancos, siguiendo la misma lÃ­nea que la separaciÃ³n `ID`/`Classifier` del DÃ­a 2.
+
+No se aplica de forma clara en este dÃ­a:
+
+-   **O (Abierto/Cerrado)**: `BatteryMaximizer.fromString` construye directamente objetos `BatteryBank` (`new BatteryBank(...)`); no hay ninguna abstracciÃ³n que permita cambiar el algoritmo de cÃ¡lculo sin modificar el propio `BatteryBank`.
+-   **L (SustituciÃ³n de Liskov)**: no hay herencia en este dÃ­a.
+-   **I (SegregaciÃ³n de Interfaces)**: no se definen interfaces propias.
+-   **D (InversiÃ³n de Dependencias)**: `BatteryMaximizer` depende directamente del tipo concreto `BatteryBank`, no de una abstracciÃ³n.
+
 ## Enunciado
 
-Para encender la escalera hacia el departamento de impresión necesitas baterías. Cada banco de baterías tiene múltiples baterías con valores de 1 a 9. Debes encender exactamente dos baterías por banco, y el voltaje producido es el número formado por los dígitos de las baterías encendidas (sin reordenar). Tu objetivo es maximizar el voltaje de cada banco y sumar todos los voltajes máximos.
+Para encender la escalera hacia el departamento de impresiï¿½n necesitas baterï¿½as. Cada banco de baterï¿½as tiene mï¿½ltiples baterï¿½as con valores de 1 a 9. Debes encender exactamente dos baterï¿½as por banco, y el voltaje producido es el nï¿½mero formado por los dï¿½gitos de las baterï¿½as encendidas (sin reordenar). Tu objetivo es maximizar el voltaje de cada banco y sumar todos los voltajes mï¿½ximos.
 
 ## Patrones de diseÃ±o
 

@@ -1,5 +1,21 @@
 # Día 9: Cine - Parte A
 
+## Principios SOLID
+
+### S - Single Responsibility
+
+`Position` solo representa una coordenada `(x, y)` y `Rectangle` solo calcula el área de un rectángulo a partir de dos esquinas (`area()`); ninguna de las dos clases sabe nada de parsing ni de cómo se generan combinaciones. `TilesManager`, en cambio, mezcla en una sola clase el parseo de la entrada (`parse`), la generación de todas las combinaciones de rectángulos (`rectangles`) y la búsqueda del área máxima (`largestArea`): son tres responsabilidades distintas conviviendo en el mismo tipo, por lo que el principio solo se cumple parcialmente.
+
+### D - Dependency Inversion
+
+`TilesManager` declara sus campos como `List<Position>` y `List<Rectangle>` (abstracciones de la interfaz `List`), no como `ArrayList` directamente, aunque internamente los instancie así. Es un ejemplo modesto pero real de depender de la abstracción del JDK en vez de la implementación concreta.
+
+### No se aplica de forma clara en este día
+
+-   **O (Open/Closed)**: no hay ningún punto de extensión (estrategias, estados calculables por subtipos, etc.); añadir un nuevo criterio de "rectángulo válido" obligaría a modificar `TilesManager` directamente.
+-   **L (Liskov Substitution)**: no existe ninguna jerarquía de herencia ni subtipos intercambiables.
+-   **I (Interface Segregation)**: no se define ninguna interfaz propia en este día.
+
 ## Enunciado
 
 En el cine del Polo Norte, los elfos quieren encontrar el rectángulo más grande que pueda formarse usando dos tiles rojos como esquinas opuestas. Tienes una lista de posiciones de tiles rojos en una cuadrícula. Debes encontrar el área del rectángulo más grande posible que tenga dos tiles rojos en esquinas opuestas.

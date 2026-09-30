@@ -1,5 +1,27 @@
 # Día 7: Laboratorios - Parte A
 
+## Principios SOLID
+
+### S - Single Responsibility Principle
+
+`Beam` tiene una responsabilidad clara y bien delimitada: representar el estado de un haz en una fila y calcular el haz de la fila siguiente (`next`, `createBeam`, `divideBy`). `BeamManager`, en cambio, mezcla la responsabilidad de ser el punto de acceso global (Singleton) con la de orquestar el parsing y la simulación completa.
+
+### O - Open/Closed Principle
+
+No se aplica de forma clara: la lógica de "si el siguiente carácter es `^` se divide en dos posiciones" está codificada directamente en `Beam.createBeam`, sin ningún punto de extensión para otros tipos de divisores o comportamientos.
+
+### L - Liskov Substitution Principle
+
+`PositionList extends HashSet<Position>` es un buen ejemplo de cumplimiento de Liskov: solo añade el método `positionExists`, sin sobrescribir `add`, `equals` ni ningún otro comportamiento heredado de `HashSet`, por lo que cualquier código que espere un `HashSet<Position>` (o un `Set<Position>`) sigue funcionando correctamente si se le pasa una `PositionList`.
+
+### I - Interface Segregation Principle
+
+No se aplica: el día no define ninguna interfaz propia (el único "contrato" reutilizado es la clase `HashSet` que se extiende).
+
+### D - Dependency Inversion Principle
+
+No se aplica de forma clara: `BeamManager` depende directamente de la clase concreta `Beam`, no de ninguna abstracción.
+
 ## Enunciado
 
 Te encuentras en un laboratorio de teletransportadores que tiene un problema con un manifold de tachyones. Los haces de tachyones (que siempre se mueven hacia abajo) se dividen al encontrar divisores (^). Cuando un haz encuentra un divisor, se detiene y dos nuevos haces continúan desde la izquierda y derecha inmediatas del divisor. Debes analizar cuántas veces se dividirá el haz en total.

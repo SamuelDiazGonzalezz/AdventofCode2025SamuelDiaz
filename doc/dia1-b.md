@@ -1,5 +1,18 @@
 # Día 1: Entrada Secreta - Parte B
 
+## Principios SOLID
+
+### S (Responsabilidad Única)
+
+Dentro de `Dial` (`dia1/b/Dial.java`), los métodos `rawSum` y `zerosBetween` separan con claridad dos responsabilidades distintas: `rawSum` solo acumula el desplazamiento sin normalizar, mientras que `zerosBetween` se limita al cálculo matemático de cuántos múltiplos de 100 se cruzan entre dos posiciones (`Math.floorDiv`). Esta separación evita mezclar el valor "crudo" del recorrido con la lógica de conteo de cruces por cero.
+
+No se aplica de forma clara en este día:
+
+-   **O (Abierto/Cerrado)**: la Parte B no extiende la Parte A mediante herencia, composición o una interfaz; es una clase `Dial` completamente distinta (mismo nombre, otro paquete) a la que se le añadieron directamente en el código fuente los métodos `zeros`, `zerosAt`, `zerosBetween` y `rawSum`. No hay ninguna abstracción que permanezca "cerrada a modificación" mientras se añade el nuevo comportamiento.
+-   **L (Sustitución de Liskov)**: no hay herencia en este día.
+-   **I (Segregación de Interfaces)**: no se definen interfaces propias.
+-   **D (Inversión de Dependencias)**: igual que en la Parte A, `Dial` depende de la clase concreta `Order`, no de una abstracción.
+
 ## Enunciado
 
 Ahora el método de contraseña cambia (método 0x434C49434B): debes contar el número de veces que el dial cruza por el 0 durante cualquier rotación, no solo al final de cada una. Por ejemplo, si el dial está en 50 y se hace una rotación R1000, cruzará el 0 diez veces antes de volver a 50. Esto incluye tanto los cruces durante el movimiento como los aterrizajes exactos en 0.

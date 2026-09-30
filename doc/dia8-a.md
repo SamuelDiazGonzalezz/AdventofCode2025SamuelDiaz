@@ -1,5 +1,27 @@
 # Día 8: Zona de Juegos - Parte A
 
+## Principios SOLID
+
+### S - Single Responsibility Principle
+
+`CircuitSet` tiene una responsabilidad única y bien definida: mantener los grupos de cajas conectadas y fusionarlos (`add`), sin mezclar parsing ni cálculo de distancias. Esa lógica de "unión de conjuntos" (similar a union-find) está completamente aislada de `ChristmasDecorationManager`, que se encarga del parsing y de orquestar el proceso.
+
+### O - Open/Closed Principle
+
+No se aplica de forma clara: no hay ningún punto de extensión para, por ejemplo, cambiar el criterio de fusión de circuitos o el criterio de distancia sin modificar directamente `CircuitSet` o `Position`.
+
+### L - Liskov Substitution Principle
+
+No se aplica: no hay ninguna jerarquía de herencia o subtipos propios en el código de este día.
+
+### I - Interface Segregation Principle
+
+`JunctionBoxPair implements Comparable<JunctionBoxPair>` es un ejemplo, aunque apoyado en una interfaz de la propia librería estándar, de interfaz mínima y enfocada: solo exige implementar `compareTo`, sin forzar a la clase a implementar métodos que no necesita.
+
+### D - Dependency Inversion Principle
+
+`CircuitSet` declara su campo como `List<Set<Position>> circuits`, es decir, usando las interfaces de colección (`List`, `Set`) en lugar de los tipos concretos `ArrayList`/`HashSet`, lo que permite cambiar la implementación interna sin afectar al resto de la clase. Es una forma modesta pero real de aplicar la inversión de dependencias.
+
 ## Enunciado
 
 En una zona de juegos subterránea, los elfos están configurando decoraciones navideñas conectando cajas de conexión eléctricas en el espacio 3D. Para ahorrar luces, quieren conectar los pares más cercanos primero. Debes conectar los 1000 pares de cajas más cercanas y luego multiplicar los tamaños de los tres circuitos más grandes formados.

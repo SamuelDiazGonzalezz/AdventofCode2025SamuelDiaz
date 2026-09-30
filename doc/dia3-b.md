@@ -1,8 +1,21 @@
 # Día 3 - Parte B
 
+## Principios SOLID
+
+### S (Responsabilidad Única)
+
+`BatteryBank` (`dia3/b/BatteryBank.java`) mantiene una única responsabilidad —encontrar la mejor combinación de dígitos— repartida en métodos privados muy acotados: `maxCombination` elige recursivamente el índice del siguiente dígito óptimo, `concat` solo combina una cabeza con una cola, y `joinChars` solo convierte la lista final en un número. `BatteryMaximizer` (`dia3/b/BatteryMaximizer.java`) conserva su única responsabilidad de acumular bancos y sumar sus resultados, igual que en la Parte A.
+
+No se aplica de forma clara en este día:
+
+-   **O (Abierto/Cerrado)**: el cambio de "elegir 2 dígitos" (Parte A) a "elegir hasta `MAX_COMBINATION_LENGTH` dígitos mediante recursión" (Parte B) se hizo sustituyendo por completo el método `sum()`/`maxCombination` dentro de la misma clase `BatteryBank`, no extendiéndolo sin modificar código existente.
+-   **L (Sustitución de Liskov)**: no hay herencia en este día.
+-   **I (Segregación de Interfaces)**: no se definen interfaces propias.
+-   **D (Inversión de Dependencias)**: `BatteryMaximizer` sigue dependiendo directamente del tipo concreto `BatteryBank`.
+
 ## Enunciado
 
-Ahora necesitas m�s voltaje. En lugar de encender exactamente dos bater�as, debes encender exactamente doce bater�as dentro de cada banco. El voltaje de salida es el n�mero formado por los 12 d�gitos de las bater�as encendidas. Encuentra el m�ximo voltaje posible de cada banco y suma todos los voltajes.
+Ahora necesitas m�s voltaje. En lugar de encender exactamente dos bater�as, debes encender exactamente doce bater�as dentro de cada banco. El voltaje de salida es el n�mero formado por los 12 d�gitos de las bater�as encendidas. Encuentra el m�ximo voltaje posible de cada banco y suma todos los voltajes.
 
 ## Patrones de diseño
 

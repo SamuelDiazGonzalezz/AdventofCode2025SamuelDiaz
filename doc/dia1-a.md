@@ -1,5 +1,18 @@
 # Día 1: Entrada Secreta - Parte A
 
+## Principios SOLID
+
+### S (Responsabilidad Única)
+
+El record `Order` (`dia1/a/Order.java`) tiene una única responsabilidad clara: almacenar el valor `step` de un giro, sin lógica adicional. La clase `Dial` (`dia1/a/Dial.java`), en cambio, concentra en un mismo sitio el parseo de texto (`parse`, `signOf`, `valueOf`), el almacenamiento de las órdenes y el cálculo de la posición final (`sumAll`, `normalize`); el principio se cumple mejor en `Order` que en `Dial`, aunque esta última se apoya en métodos privados pequeños y bien nombrados que reducen el impacto de mezclar varias responsabilidades en una sola clase.
+
+No se aplica de forma clara en este día:
+
+-   **O (Abierto/Cerrado)**: no existe ningún punto de extensión (interfaz, clase abstracta o estrategia) que permita añadir comportamiento a `Dial` sin modificar directamente su código.
+-   **L (Sustitución de Liskov)**: no hay ninguna jerarquía de herencia en el código de este día.
+-   **I (Segregación de Interfaces)**: no se define ninguna interfaz propia.
+-   **D (Inversión de Dependencias)**: `Dial` crea directamente instancias concretas de `Order` (`new Order(...)`) en lugar de depender de una abstracción.
+
 ## Enunciado
 
 Debes abrir la entrada secreta del Polo Norte usando una caja fuerte con un dial circular numerado del 0 al 99. El dial comienza en 50 y debes seguir una secuencia de rotaciones (L=izquierda, R=derecha) dadas en el input. La contraseña real no es la posición final del dial, sino el número de veces que el dial apunta exactamente al 0 después de completar cada rotación de la secuencia.

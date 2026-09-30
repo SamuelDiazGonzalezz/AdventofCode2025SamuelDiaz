@@ -1,8 +1,24 @@
 # Día 2 - Parte B
 
+## Principios SOLID
+
+### S (Responsabilidad Única)
+
+Igual que en la Parte A, `ID` (`dia2/b/ID.java`) concentra toda la lógica de validación —ahora basada en bloques repetidos de cualquier longitud divisor, mediante `IntStream.range(...).noneMatch(...)`—, mientras que `Classifier` (`dia2/b/Classifier.java`) se limita a recorrer el rango `[from, to)` y acumular los IDs inválidos. Ninguna de las dos clases conoce los detalles internos de la otra.
+
+### O (Abierto/Cerrado)
+
+A diferencia de otros días de este proyecto, aquí sí hay un ejemplo real, aunque modesto, de Abierto/Cerrado: las clases `Classifier` y `ClassifierAdder` son idénticas, línea por línea, en la Parte A y en la Parte B. El nuevo criterio de validez del problema (repetición de un bloque de cualquier longitud, no solo la mitad exacta) se resolvió **únicamente** cambiando la implementación de `ID.isValid()`. Como `Classifier.add(long)` solo invoca `id.isValid()` sin conocer su lógica interna, quedó "cerrado a modificación" y a la vez "abierto" a un comportamiento nuevo a través de otra clase `ID`.
+
+No se aplica de forma clara en este día:
+
+-   **L (Sustitución de Liskov)**: no hay herencia en este día.
+-   **I (Segregación de Interfaces)**: no se define ninguna interfaz Java; el "contrato" entre `Classifier` e `ID` es implícito (mismo paquete, mismo nombre de clase), no una interfaz real.
+-   **D (Inversión de Dependencias)**: `Classifier` sigue dependiendo del tipo concreto `ID`, no de una abstracción; el desacoplamiento logrado entre Parte A y B es por duplicación consciente de paquetes, no por inyección de dependencias.
+
 ## Enunciado
 
-Ahora un ID es inv�lido si est� formado por una secuencia de d�gitos repetida al menos dos veces (puede ser 2, 3, 4 o m�s repeticiones). Por ejemplo: 12341234 (1234 dos veces), 123123123 (123 tres veces), 1212121212 (12 cinco veces), y 1111111 (1 siete veces) son todos IDs inv�lidos. Debes sumar todos estos IDs inv�lidos dentro de los rangos dados.
+Ahora un ID es inv�lido si est� formado por una secuencia de d�gitos repetida al menos dos veces (puede ser 2, 3, 4 o m�s repeticiones). Por ejemplo: 12341234 (1234 dos veces), 123123123 (123 tres veces), 1212121212 (12 cinco veces), y 1111111 (1 siete veces) son todos IDs inv�lidos. Debes sumar todos estos IDs inv�lidos dentro de los rangos dados.
 
 ## Patrones de diseño
 

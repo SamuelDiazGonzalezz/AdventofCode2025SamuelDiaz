@@ -1,5 +1,21 @@
 # Día 10: Fábrica - Parte A
 
+## Principios SOLID
+
+### S - Single Responsibility
+
+`Light` tiene una responsabilidad muy acotada: guardar su `LightState` y permitir alternarlo (`toggle`). `Button` también es un simple contenedor inmutable del conjunto de luces que afecta. `Machine`, en cambio, concentra varias responsabilidades distintas: parsea la entrada con expresiones regulares (`parseLights`, `parseButton`), traduce el estado de las luces a conjuntos de índices (`getTargetLightIndices`, `getCurrentLightIndices`) y además implementa el propio algoritmo de búsqueda en anchura (`bfsMinSteps`, `generateNextFrontier`, `applyButton`). Mezclar parsing y algoritmo de búsqueda en la misma clase es una violación real de SRP.
+
+### D - Dependency Inversion
+
+Los estados del BFS se manejan como `Set<Integer>`, `List<Set<Integer>>` y `Set<Set<Integer>>` (interfaces del JDK) en vez de colecciones concretas, y `buttons` se declara como `Set<Button>`. Es una dependencia de abstracciones, aunque modesta.
+
+### No se aplica de forma clara en este día
+
+-   **O (Open/Closed)**: el algoritmo BFS de `Machine` está cerrado a extensión; no hay forma de añadir una estrategia de búsqueda distinta sin modificar la clase.
+-   **L (Liskov Substitution)**: no hay herencia ni subtipos en este código.
+-   **I (Interface Segregation)**: no se definen interfaces propias.
+
 ## Enunciado
 
 Las máquinas de la fábrica están apagadas y necesitas inicializarlas. Cada máquina tiene luces indicadoras ([.##.]), botones que togglean luces específicas ((0,3,4)), y requerimientos de voltaje ({3,5,4,7}). Para configurar las luces, presionas botones; cada botón puede presionarse múltiples veces. Debes encontrar el mínimo número de presiones de botones necesarias para configurar correctamente todas las máquinas.

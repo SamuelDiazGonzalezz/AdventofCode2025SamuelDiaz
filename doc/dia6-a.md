@@ -1,5 +1,27 @@
 # Día 6: Compactador de Basura - Parte A
 
+## Principios SOLID
+
+### S - Single Responsibility Principle
+
+`SumList` y `ProductList` tienen cada una una única responsabilidad: acumular operandos y calcular, respectivamente, su suma o su producto. Esta separación hace que cada clase sea fácil de entender y de testear de forma aislada.
+
+### O - Open/Closed Principle
+
+Se aplica solo parcialmente: gracias a la interfaz `OperatorList`, se podría añadir una nueva operación (por ejemplo una resta) creando una nueva clase sin tocar `SumList` ni `ProductList`. Sin embargo, `CephalopodMathCalculator.parse(Stream<String[]>)` decide entre suma y producto con un `if/else` codificado sobre el símbolo `"*"`, así que añadir un tercer operador obligaría igualmente a modificar esa clase: el cierre frente a modificación no es completo.
+
+### L - Liskov Substitution Principle
+
+Hay una violación real y detectable: `SumList.addAll(List<Long>)` devuelve `null` en lugar de `this`, rompiendo el contrato fluido que promete `OperatorList` (cuyo `addAll` debe devolver `OperatorList` para poder encadenar). Si se sustituyera una `ProductList` por una `SumList` en un punto del código que encadenase `.addAll(...).compute()`, se produciría un `NullPointerException`: un ejemplo concreto de incumplimiento de Liskov.
+
+### I - Interface Segregation Principle
+
+`OperatorList` es una interfaz pequeña y cohesionada (`add`, dos sobrecargas de `addAll`, `compute`, `size`): todos sus métodos son usados por ambas implementaciones, sin métodos "de sobra" que ninguna de las dos tenga que dejar vacíos o sin sentido.
+
+### D - Dependency Inversion Principle
+
+No se aplica con tanta claridad como parece a primera vista: aunque `ProductList::compute` se usa de forma polimórfica en un stream, los campos de `CephalopodMathCalculator` están declarados con los tipos concretos `List<ProductList> productLists` y `SumList sumList`, no con `OperatorList`. La abstracción existe pero la clase principal no depende realmente de ella para almacenar sus operandos.
+
 ## Enunciado
 
 Ayudas a una familia de cefalópodos con matemáticas mientras esperan a abrir una puerta. Los problemas están dispuestos horizontalmente en columnas donde cada columna es un problema vertical. Los números están alineados verticalmente y al final de cada columna hay un símbolo (+ o \*) indicando la operación. Debes resolver cada problema y sumar todos los resultados para obtener el gran total.

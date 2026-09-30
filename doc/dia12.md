@@ -1,5 +1,27 @@
 # Día 12: Granja de Árboles de Navidad
 
+## Principios SOLID
+
+### S - Single Responsibility
+
+Cada clase tiene una única responsabilidad: `Position` solo suma coordenadas; `Shape` solo conoce la geometría de una forma; `Region` solo agrega ancho, alto y regalos requeridos; `PresentFitterParser` solo parsea el texto de entrada; `LongMaskRegionSolver`/`BitSetRegionSolver` solo resuelven el backtracking con una representación concreta de bits; `RegionSolverFactory` solo decide qué solver usar; y `PresentFitter` solo orquesta (delega el parseo y delega la resolución), quedando como la clase más simple de todo el día.
+
+### O - Open/Closed
+
+La interfaz `RegionSolver` permite añadir una nueva estrategia de resolución (por ejemplo, un solver basado en otra técnica de poda) creando una clase nueva que la implemente, sin modificar `PresentFitter` ni las implementaciones existentes. Solo haría falta actualizar `RegionSolverFactory` para poder elegirla, que es precisamente el único punto del sistema diseñado para conocer las implementaciones concretas.
+
+### L - Liskov Substitution
+
+`LongMaskRegionSolver` y `BitSetRegionSolver` son completamente intercambiables en cualquier sitio donde se espera un `RegionSolver`: ambas cumplen el mismo contrato (`canFit(Region) -> boolean`) sin sorpresas, a pesar de usar representaciones internas distintas (`long` vs `BitSet`). `PresentFitter` ni siquiera sabe cuál de las dos está usando.
+
+### I - Interface Segregation
+
+`RegionSolver` expone un único método (`canFit`), el mínimo necesario para que `PresentFitter` pueda delegar la comprobación de encaje. No obliga a sus implementaciones a exponer detalles internos (como los métodos privados `precomputePlacements` o `tryFit`, que permanecen ocultos en cada solver).
+
+### D - Dependency Inversion
+
+`PresentFitter.canFitPresents(Region)` depende únicamente de la abstracción `RegionSolver` (obtenida a través de `RegionSolverFactory.forRegion(region)`), no de `LongMaskRegionSolver` ni `BitSetRegionSolver` directamente. Además, sigue declarando sus colecciones contra interfaces del JDK (`List<Shape>`, `List<Region>`), nunca contra `ArrayList`/`HashMap` directamente.
+
 ## Enunciado
 
 En la granja de árboles de Navidad, los elfos necesitan colocar regalos bajo los árboles. Los regalos vienen en formas estándar (mostradas como grids con # representando partes sólidas). Cada región bajo un árbol tiene un tamaño específico y necesita fit un número determinado de regalos de cada forma. Los regalos pueden rotarse y voltearse, pero deben colocarse perfectamente en la cuadrícula sin overlap. Debes determinar cuántas regiones pueden fit todos los regalos listados para esa región.
@@ -8,23 +30,29 @@ En la granja de árboles de Navidad, los elfos necesitan colocar regalos bajo lo
 
 ### Factory Method
 
-`PresentFitter.create()` encapsula creación.
+`PresentFitter.create()` encapsula la creación de la instancia vacía. `RegionSolverFactory.forRegion(region)` es también un Factory Method, pero además actúa como **Strategy selector**: decide en tiempo de ejecución qué implementación de `RegionSolver` instanciar según el tamaño de la región.
+
+### Strategy Pattern
+
+La interfaz `RegionSolver` (con las implementaciones `LongMaskRegionSolver` y `BitSetRegionSolver`) es un ejemplo de **Strategy**: encapsula el algoritmo de backtracking detrás de una interfaz común, permitiendo que `PresentFitter` use una u otra sin conocer los detalles de cada una. Ver [Principios SOLID](#principios-solid) para el detalle de cómo esto habilita O, L, I y D.
+
+### Separación Parseo / Resolución
+
+`PresentFitterParser` encapsula todo el parseo de texto, y `PresentFitter` delega en ella (`new PresentFitterParser().parse(input)`), manteniendo separadas ambas responsabilidades.
 
 ### Record como Clase Principal
 
-`PresentFitter` es un **record** complejo con lógica, no solo datos:
+`PresentFitter` es un **record** sencillo: solo contiene los datos (`shapes`, `regions`) y unos pocos métodos de orquestación (`parse`, `fittableRegions`, `canFitPresents`) que delegan el trabajo pesado en `PresentFitterParser` y `RegionSolver`.
 
 ```java
 public record PresentFitter(List<Shape> shapes, List<Region> regions) {
-    // Métodos con lógica compleja
+    // Solo orquesta: delega parseo y resolución
 }
 ```
 
-Esto es **inusual**: records típicamente son solo contenedores de datos, pero Java permite métodos.
-
 ### Backtracking con Memoization
 
-Implementación de **backtracking** optimizado con cache para el problema de fitting.
+Implementación de **backtracking** optimizado con cache para el problema de fitting, ahora encapsulada dentro de cada `RegionSolver` (`LongMaskRegionSolver`/`BitSetRegionSolver`) en vez de estar en `PresentFitter`.
 
 ### Clean Code
 
@@ -146,26 +174,29 @@ Ordena shapes por número de placements posibles (menos primero), reduciendo el 
 
 ## Interfaces
 
-**No se utilizan interfaces**.
+**Sí se utiliza una interfaz propia: `RegionSolver`.**
 
-**Justificación**:
+```java
+public interface RegionSolver {
+    boolean canFit(Region region);
+}
+```
 
--   record PresentFitter es implementación única
--   Records Shape y Region son value objects
--   No hay polimorfismo necesario
+Con dos implementaciones intercambiables, `LongMaskRegionSolver` (representación `long`, para regiones ≤ 64 celdas) y `BitSetRegionSolver` (representación `BitSet`, sin límite de tamaño), elegidas en tiempo de ejecución por `RegionSolverFactory`. Es el mismo patrón que la interfaz `OperatorList` del día 6: una abstracción mínima (un único método) con implementaciones intercambiables, que permite añadir una tercera estrategia de resolución en el futuro sin tocar `PresentFitter`.
+
+Los records `Shape` y `Region` siguen siendo value objects sin interfaz propia, ya que no tienen implementaciones alternativas.
 
 ## El por qué de esas elecciones
 
-### Record con Lógica
+### Record para PresentFitter
 
-Usar record para `PresentFitter` es controversial:
+`PresentFitter` es un record que no mezcla datos con lógica compleja: esa lógica vive en `PresentFitterParser` y en las implementaciones de `RegionSolver`:
 
--   **Ventaja**: Inmutabilidad automática de listas
+-   **Ventaja**: Inmutabilidad automática de las listas `shapes`/`regions`
 -   **Ventaja**: Sintaxis concisa
--   **Desventaja**: Mezcla datos con lógica compleja
--   **Desventaja**: Constructor público con parámetros (usado en parseLines)
+-   **Ventaja**: al quedar solo con métodos de orquestación, es fácil de leer de principio a fin
 
-Esto muestra uso **avanzado** de records más allá de DTOs simples.
+El constructor público (usado por `PresentFitterParser.parseLines`) sigue siendo necesario para construir la instancia final con los datos ya parseados.
 
 ### BitSet vs Long Bitmask
 

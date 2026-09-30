@@ -214,7 +214,8 @@ Problemas diarios de Advent of Code 2025 solucionados en Java, siguiendo princip
     -   Día 8: `ChristmasDecorationManager.parse(input).startConnections().calculate()` (`src/main/dia8/a/ChristmasDecorationManager.java`) - encapsula el pipeline completo del puzzle en tres pasos encadenados.
 -   **Strategy Pattern**
     -   *Resumen: define una familia de algoritmos intercambiables detrás de una interfaz común, para poder elegir la implementación concreta en tiempo de ejecución sin usar condicionales repartidos por el código.*
-    -   Día 6, interfaz `OperatorList` con las implementaciones `SumList` y `ProductList` (`src/main/dia6/a/OperatorList.java`). `CephalopodMathCalculator` decide en tiempo de ejecución qué implementación usar según el operador (`*` o suma) leído en cada fila, sin condicionales repartidos por el código. Es el único caso de estrategias intercambiables del proyecto.
+    -   Día 6, interfaz `OperatorList` con las implementaciones `SumList` y `ProductList` (`src/main/dia6/a/OperatorList.java`). `CephalopodMathCalculator` decide en tiempo de ejecución qué implementación usar según el operador (`*` o suma) leído en cada fila, sin condicionales repartidos por el código.
+    -   Día 12, interfaz `RegionSolver` con las implementaciones `LongMaskRegionSolver` y `BitSetRegionSolver` (`src/main/dia12/RegionSolver.java`), elegidas por `RegionSolverFactory` según el tamaño de la región. Son los únicos dos casos de estrategias intercambiables del proyecto.
 -   **Singleton**
     -   *Resumen: garantiza que una clase tenga una única instancia accesible globalmente (vía un método estático como `getInstance()`), en vez de crear varias copias independientes del mismo estado.*
     -   Día 7, `BeamManager.getInstance()` (`src/main/dia7/a/BeamManager.java`). Garantiza que exista una única simulación del haz compartida durante todo el procesamiento del puzzle, con `resetInstance()` para poder reiniciarla entre tests.
@@ -239,22 +240,27 @@ Problemas diarios de Advent of Code 2025 solucionados en Java, siguiendo princip
     -   Día 8: `CircuitSet.add(JunctionBoxPair)` (`src/main/dia8/a/CircuitSet.java`) solo fusiona circuitos; el cálculo de distancia vive en `Position.distanceTo` y el parseo/orquestación en `ChristmasDecorationManager`.
     -   Día 9: `Edge.cutsThrough(...)` (`src/main/dia9/b/Edge.java`) encapsula únicamente la geometría de un segmento, mientras `Polygon` orquesta el algoritmo de ray-casting y `Rectangle` calcula sus propias esquinas.
     -   Día 11: `VisitedSet.requiredCount()`/`isValid()` (`src/main/dia11/b/VisitedSet.java`) solo lleva la cuenta de nodos obligatorios visitados, separado de la búsqueda DFS de `ServerRack`.
+    -   Día 12: `PresentFitterParser` solo parsea texto, `RegionSolverFactory` solo elige la estrategia, y cada `RegionSolver` solo resuelve el backtracking; `PresentFitter` solo orquesta esas tres piezas (`src/main/dia12/`).
 -   **O - Open/Closed (Abierto/Cerrado)**
     -   *Resumen: el código debe estar abierto a extensión (poder añadir comportamiento nuevo) pero cerrado a modificación (sin tener que tocar el código ya existente y probado).*
-    -   Día 6, la interfaz `OperatorList` está cerrada a modificación pero abierta a extensión: para añadir un nuevo operador bastaría con crear una clase nueva que la implemente, sin tocar `CephalopodMathCalculator` ni `SumList`/`ProductList`. *(Es el único ejemplo real y sólido en el proyecto; el resto de días no define jerarquías de estrategias intercambiables, así que no se fuerzan más casos.)*
+    -   Día 6, la interfaz `OperatorList` está cerrada a modificación pero abierta a extensión: para añadir un nuevo operador bastaría con crear una clase nueva que la implemente, sin tocar `CephalopodMathCalculator` ni `SumList`/`ProductList`.
+    -   Día 12, la interfaz `RegionSolver` (`src/main/dia12/RegionSolver.java`) permite añadir una nueva estrategia de resolución del backtracking creando una clase nueva que la implemente, sin tocar `PresentFitter`. *(Estos dos son los únicos casos reales del proyecto — el resto de días no define jerarquías de estrategias intercambiables.)*
 -   **L - Liskov Substitution (Sustitución de Liskov)**
     -   *Resumen: una subclase (o implementación de una interfaz) debe poder usarse en cualquier sitio donde se espera su tipo base, sin romper el comportamiento que el código llamador da por hecho.*
     -   Día 6: `SumList` y `ProductList` son intercambiables en cualquier sitio que espere un `OperatorList`. *(Contraejemplo real a evitar: `SumList.addAll(List<Long>)` devuelve `null` en vez de `this`, rompiendo el contrato fluido que sí cumple el resto de métodos.)*
     -   Día 7: `PositionList extends HashSet<Position>` (`src/main/dia7/a/PositionList.java` y `.../b/PositionList.java`) añade `positionExists(row, col)` sin romper el contrato de `HashSet`: se sigue pudiendo usar en cualquier sitio donde se espera un `Set<Position>` (`addAll`, `stream`, `size`) sin sorpresas.
+    -   Día 12: `LongMaskRegionSolver` y `BitSetRegionSolver` (`src/main/dia12/`) son totalmente intercambiables donde se espera un `RegionSolver` — `PresentFitter` ni siquiera sabe cuál de las dos está usando.
 -   **I - Interface Segregation (Segregación de Interfaces)**
     -   *Resumen: es mejor tener varias interfaces pequeñas y específicas que una grande, para que ninguna clase se vea obligada a implementar métodos que no necesita.*
-    -   Día 6, `OperatorList` solo expone los métodos que un operando necesita (`add`, `addAll`, `compute`, `size`). *(Es la única interfaz propia de todo el proyecto — el resto de clases son concretas o `record` — así que no hay un segundo ejemplo real sin inventarlo.)*
+    -   Día 6, `OperatorList` solo expone los métodos que un operando necesita (`add`, `addAll`, `compute`, `size`).
+    -   Día 12, `RegionSolver` (`src/main/dia12/RegionSolver.java`) expone un único método (`canFit`), el mínimo necesario para que `PresentFitter` pueda delegar la comprobación de encaje.
 -   **D - Dependency Inversion (Inversión de Dependencias)**
     -   *Resumen: el código de alto nivel debe depender de abstracciones (interfaces, tipos de colección genéricos), no de implementaciones concretas, para poder cambiar estas últimas sin afectar al resto.*
     -   Día 6: `CephalopodMathCalculator` depende de la abstracción `OperatorList`, no de `SumList`/`ProductList` directamente.
     -   Día 8: `CircuitSet` (`src/main/dia8/a/CircuitSet.java`) tipa su campo como `List<Set<Position>>`, no como `ArrayList<HashSet<Position>>`, dependiendo de las interfaces de colección de la JDK en vez de sus implementaciones concretas.
     -   Día 11: `ServerRack.mem` (`src/main/dia11/a/ServerRack.java`) está tipado como `Map<Device, Long>`, no como `HashMap`.
     -   Día 3: `BatteryBank.maxCombination(List<Long> list, int k)` (`src/main/dia3/b/BatteryBank.java`) recibe `List<Long>`, no `ArrayList<Long>`, aceptando cualquier implementación de lista.
+    -   Día 12: `PresentFitter.canFitPresents(Region)` depende únicamente de la abstracción `RegionSolver`, obtenida vía `RegionSolverFactory.forRegion(region)`, nunca de `LongMaskRegionSolver`/`BitSetRegionSolver` directamente.
 
 ## Otros Principios Aplicados
 

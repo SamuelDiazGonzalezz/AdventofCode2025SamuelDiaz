@@ -1,5 +1,21 @@
 # Día 11: Reactor - Parte A
 
+## Principios SOLID
+
+### S - Single Responsibility
+
+`Device` tiene una responsabilidad clara y acotada: representar la identidad de un dispositivo y sus salidas, redefiniendo `equals`/`hashCode` solo en base a `label`. `ServerRack`, sin embargo, junta el parseo de la entrada (`parse`), la búsqueda de un dispositivo por etiqueta (`getDevice`) y el propio algoritmo recursivo de conteo de caminos con memoización (`pathsTo`) en una única clase; no hay una separación entre "construir el grafo" y "recorrerlo", a diferencia de como sí ocurre en la parte B con `VisitedSet`.
+
+### D - Dependency Inversion
+
+El campo `mem` se declara como `Map<Device, Long>`, es decir, contra la interfaz `Map` del JDK y no contra `HashMap`, aunque se instancie como tal en el constructor. Esto permite que el resto de la clase razone en términos de la abstracción de caché sin acoplarse a la implementación concreta.
+
+### No se aplica de forma clara en este día
+
+-   **O (Open/Closed)**: el algoritmo de conteo de caminos (`pathsTo`) está cerrado a extensión; para cambiar el criterio de qué cuenta como "camino válido" habría que modificar `ServerRack` directamente (como de hecho ocurre en la parte B).
+-   **L (Liskov Substitution)**: no hay herencia ni subtipos sustituibles.
+-   **I (Interface Segregation)**: no se define ninguna interfaz propia.
+
 ## Enunciado
 
 En el reactor que alimenta la fábrica, hay un problema de comunicación con el nuevo server rack. Tienes una lista de dispositivos y sus conexiones de salida (formato: `dispositivo: salida1 salida2`). Los datos fluyen desde dispositivos a través de sus salidas (no pueden fluir hacia atrás). Debes encontrar cuántos caminos diferentes conducen desde el dispositivo `you` hasta el dispositivo `out`.
